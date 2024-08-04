@@ -2,16 +2,16 @@ user writes the AmIUp command with --help
 
 we have commands for
 
-start (checked - refactor needed)
+start - (checked)
 (starts a process for monitoring - if there is a process already running it gives the message and error)
 
-stop (checked)
+stop - (checked)
 
 
-add [website] [(email - sms - telegram)way of getting the downtime alert]
+add [website] [(email - sms - telegram)way of getting the downtime alert] - (checked)
 (if its already added it wont add)
 
-check 
+check - (checked)
 (runs the monitor process for once and gives it to user (and stores it in a log file))
 
 report [website] [from : date to : date]
