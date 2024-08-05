@@ -6,16 +6,20 @@ import client from "./dbClient";
 import "dotenv/config";
 import check from "./check";
 
-
 async function handleArg(args: string[]) {
   // console.log(args);
   switch (args[0]) {
     case "start": {
-      startFunction();
+      if (args[1] == "telegram") startFunction("telegram.js");
+      else startFunction("monitorProcess.js");
       break;
     }
     case "stop": {
-      StopFunction();
+      if (args[1] == "telegram") StopFunction("telegram.js");
+      else if (args[1]) {
+        console.log(`Invalid service : ${args[1]}`);
+        exit(0);
+      } else StopFunction("monitorProcess.js");
       break;
     }
     case "add": {
@@ -23,16 +27,10 @@ async function handleArg(args: string[]) {
         await client.connect();
         const db = client.db("AmIUp");
         const WebSitesCollection = db.collection("WebSites");
-        if (args[1] && args[2] && args[3]) {
-          if (args[2] !== "tel" && args[2] !== "email" && args[2] != "sms") {
-            console.log(chalk.bgRed("method should be : sms , tel or email"));
-            exit(0);
-          }
+        if (args[1]) {
           args = args.map((arg) => arg.replace('"', ""));
           const inputData = {
             website_url: args[1],
-            alert_method: args[2],
-            method_data: args[3],
           };
           const data = await WebSitesCollection.findOne({
             website_url: args[1],
@@ -94,8 +92,37 @@ async function handleArg(args: string[]) {
       check();
       break;
     }
+    case "addAlertMethod": {
+      if (args[1] !== "tel" && args[1] !== "email" && args[1] != "sms") {
+        console.log(chalk.bgRed("method should be : sms , tel or email"));
+        if (!args[2]) console.log(chalk.bgRed("expected 3 argument"));
+        exit(0);
+      }
+      try {
+        await client.connect();
+        const db = client.db("AmIUp");
+        const methodCollection = db.collection("methods");
+        const data = await methodCollection.findOne({
+          method_data: args[2],
+        });
+
+        if (data) {
+          console.log(chalk.yellow(`${args[2]} is already in the list!`));
+          client.close();
+        } else {
+          await methodCollection.insertOne({
+            method_data: args[2],
+            method: args[1],
+          });
+          console.log(chalk.bgGreen(`${args[1]} added for monitoring!`));
+          client.close();
+        }
+      } catch (err) {
+        console.log(chalk.bgRed(err));
+      }
+      break;
+    }
     default: {
-      //statements;
       break;
     }
   }
@@ -121,13 +148,6 @@ handleArg(argv.slice(2));
 //     });
 //   }
 // );
-
-//add
-//db connection
-//create a db record for model
-
-//check
-//run the process one time
 
 //report
 //gets datas from database and writes it in a file or prints it on screen

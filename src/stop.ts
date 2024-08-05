@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import ps, { kill } from "ps-node";
-export default function StopFunction() {
+export default function StopFunction(serviceName: string) {
   ps.lookup(
     {
       command: "node",
@@ -15,9 +15,9 @@ export default function StopFunction() {
           const processNames = process.arguments.map((item) =>
             item.split("/")
           )[0];
-          if (processNames[processNames.length - 1] == "monitorProcess.js") {
+          if (processNames[processNames.length - 1] == serviceName) {
             kill(process.pid);
-            console.log(chalk.green("monitorProcess ended", process.pid));
+            console.log(chalk.green(`${serviceName} ended`, process.pid));
           }
         }
       });
