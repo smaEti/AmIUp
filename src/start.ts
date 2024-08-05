@@ -3,19 +3,19 @@ import ps from "ps-node";
 import { spawn } from "child_process";
 import fs from "node:fs";
 import chalk from "chalk";
-export default function startFunction() {
-  if (!fs.existsSync(__dirname + "/logs")) {
-    fs.mkdirSync(__dirname + "/logs", { recursive: true });
+export default function startFunction(serviceName : string) {
+  if (!fs.existsSync(__dirname + `/logs/${serviceName}`)) {
+    fs.mkdirSync(__dirname + `/logs/${serviceName}`, { recursive: true });
   }
   const date = new Date();
   const out = fs.openSync(
     __dirname +
-      `/logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-out.log`,
+      `/logs/${serviceName}/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-out.log`,
     "a+"
   );
   const err = fs.openSync(
     __dirname +
-      `/logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-error.log`,
+      `/logs/${serviceName}/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-error.log`,
     "a+"
   );
   function checkRunning() {
@@ -35,11 +35,11 @@ export default function startFunction() {
                 item.split("/")
               )[0];
               if (
-                processNames[processNames.length - 1] == "monitorProcess.js"
+                processNames[processNames.length - 1] == serviceName
               ) {
                 console.log(
                   chalk.yellow(
-                    "monitorProcess is already running in the background.",
+                    `${serviceName} is already running in the background.`,
                     process.pid
                   )
                 );
@@ -53,11 +53,11 @@ export default function startFunction() {
     });
   }
   checkRunning().then(() => {
-    const child = spawn("node", [__dirname + "/monitorProcess.js"], {
+    const child = spawn("node", [__dirname + `/${serviceName}`], {
       detached: true,
       stdio: ["ignore", out, err],
     });
     child.unref();
-    console.log(chalk.green("App started!"));
+    console.log(chalk.green(`App ${serviceName} started!`));
   });
 }
