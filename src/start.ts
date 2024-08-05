@@ -10,12 +10,12 @@ export default function startFunction() {
   const date = new Date();
   const out = fs.openSync(
     __dirname +
-      `/logs/${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-out.log`,
+      `/logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-out.log`,
     "a+"
   );
   const err = fs.openSync(
     __dirname +
-      `/logs/${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-error.log`,
+      `/logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-error.log`,
     "a+"
   );
   function checkRunning() {
