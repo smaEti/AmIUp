@@ -26,13 +26,13 @@ export default async function check() {
   });
 
   const results = await Promise.all(promises);
-  console.log("\n")
+  console.log("")
   results.forEach((result) => {
     console.log(
       result.status == "UP" ? chalk.underline.green("UP") : chalk.underline.red("DOWN"),
       "\t",
-      chalk.underline.blueBright(result.host + "\n"),
-      chalk.underline()
+      chalk.underline.blueBright(result.host),
     );
   });
+  console.log("")
 }
