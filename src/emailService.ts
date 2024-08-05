@@ -1,7 +1,10 @@
 import nodemailer from "nodemailer";
 export default function (
   method_data: string,
-  failedWebSites: { host: string; status: string }[],
+  failedWebSites:  {
+    host: string;
+    status: string;
+}[],
   time: string
 ) {
   const transporter = nodemailer.createTransport({
