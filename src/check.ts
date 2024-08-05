@@ -18,20 +18,21 @@ export default async function check() {
         url: site.website_url,
         timeout: 3000,
       });
-      return { host: url.hostname, status: "up" };
+      return { host: url.hostname, status: "UP" };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      return { host: url.hostname, status: "down" };
+      return { host: url.hostname, status: "DOWN" };
     }
   });
 
   const results = await Promise.all(promises);
-
+  console.log("\n")
   results.forEach((result) => {
     console.log(
-      result.status == "up" ? chalk.bgGreen("up") : chalk.bgRed("down"),
+      result.status == "UP" ? chalk.underline.green("UP") : chalk.underline.red("DOWN"),
       "\t",
-      chalk.underline.blueBright(result.host)
+      chalk.underline.blueBright(result.host + "\n"),
+      chalk.underline()
     );
   });
 }
