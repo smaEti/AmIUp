@@ -33,7 +33,7 @@ export default async function report(siteUrl: string) {
           else
             console.log(
               chalk.green(
-                `your report is ready in ${__dirname}/reports/${date} file`
+                `your report is ready in ${__dirname}/reports/${date}.txt file`
               )
             );
         }
