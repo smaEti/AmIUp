@@ -11,10 +11,11 @@ export default async function report(siteUrl: string) {
   const logCollection = db.collection("logs");
   const WebSitesCollection = db.collection("WebSites");
   const sites = await WebSitesCollection.find().toArray();
-
+  let dataExist = false;
   const promises = sites.map(async (site) => {
     const dbSiteUrl: string = site.website_url;
     if (dbSiteUrl.includes(siteUrl)) {
+      dataExist = true;
       const data = await logCollection
         .find({ website_url: dbSiteUrl })
         .toArray();
@@ -23,7 +24,7 @@ export default async function report(siteUrl: string) {
         content += `${eachSite.status}\t ${eachSite.date}\t ${eachSite.website_url}\n`;
       });
       fs.appendFile(
-        __dirname + `/reports/${date}.log`,
+        __dirname + `/reports/${date}.txt`,
         content,
         { flag: "a+" },
         (err) => {
@@ -40,5 +41,9 @@ export default async function report(siteUrl: string) {
     }
   });
   await Promise.all(promises);
+  if (!dataExist)
+    console.log(
+      chalk.bgRed("did not find any websites that include your argument.")
+    );
   await client.close();
 }
