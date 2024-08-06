@@ -2,7 +2,7 @@ import axios from "axios";
 import client from "./dbClient";
 import chalk from "chalk";
 import emailService from "./emailService";
-
+import telegramService from "./telegramService";
 const checkWebsites = async () => {
   const date = new Date().toISOString();
   await client.connect();
@@ -60,11 +60,10 @@ const checkWebsites = async () => {
           emailService(method.method_data, failedWebSites, date);
         } else if (method.method === "sms") {
           // sms logic
-        } else {
-          // telegram logic
         }
       });
     }
+    telegramService(failedWebSites, date);
   }
 };
 

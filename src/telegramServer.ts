@@ -39,10 +39,11 @@ bot.onText(/\/disable/, async (msg) => {
   bot.sendMessage(msg.chat.id, "bot disabled.");
 });
 
-app.post("/sendAlert", async (req: Request, res: Response) => {
+app.post("/send-alert", async (req: Request, res: Response) => {
   try {
     const sites = req.body.sites;
     const date = req.body.date;
+    console.log("down sites:",sites);
     const string = sites.map(
       (site: { host: string; status: string }) => site.host + "\n"
     );
@@ -57,10 +58,13 @@ app.post("/sendAlert", async (req: Request, res: Response) => {
         `this websites were down in ${date} \n` + string
       );
     }
-    res.status(200).send("alert has been sent to telegram.");
+    res.status(200).send("alert has been sent to telegram users.");
   } catch (e) {
     res.status(500).send(e);
   }
+});
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).send("api is running");
 });
 app.listen(expressPort, () => {
   console.log(`telegram server listening on port ${expressPort}`);
