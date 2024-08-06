@@ -1,10 +1,10 @@
 import nodemailer from "nodemailer";
 export default function (
   method_data: string,
-  failedWebSites:  {
+  failedWebSites: {
     host: string;
     status: string;
-}[],
+  }[],
   time: string
 ) {
   const transporter = nodemailer.createTransport({
@@ -20,7 +20,7 @@ export default function (
 
   transporter
     .sendMail({
-      from: "amin@teenagedream.ir",
+      from: process.env.SMTP_USER_EMAIL,
       to: method_data,
       subject: "Down Websites",
       html: `
