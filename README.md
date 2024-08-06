@@ -18,7 +18,7 @@ npx tsc
 
 #### make a `.env` file like the example:
 
-```sh
+```
 # your uri for connecting to database
 DBURI =
 # username and password of your user for smtp
