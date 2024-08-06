@@ -10,16 +10,13 @@ async function handleArg(args: string[]) {
   // console.log(args);
   switch (args[0]) {
     case "start": {
-      if (args[1] == "telegram") startFunction("telegramServer.js");
-      else startFunction("monitorProcess.js");
+      startFunction("telegramServer.js");
+      startFunction("monitorProcess.js");
       break;
     }
     case "stop": {
-      if (args[1] == "telegram") StopFunction("telegramServer.js");
-      else if (args[1]) {
-        console.log(`Invalid service : ${args[1]}`);
-        exit(0);
-      } else StopFunction("monitorProcess.js");
+      StopFunction("telegramServer.js");
+      StopFunction("monitorProcess.js");
       break;
     }
     case "add": {
@@ -128,26 +125,6 @@ async function handleArg(args: string[]) {
   }
 }
 handleArg(argv.slice(2));
-// ps.lookup(
-//   {
-//     command: "node",
-//   },
-//   function (err, resultList) {
-//     if (err) {
-//       throw new Error(err.message);
-//     }
-
-//     resultList.forEach(function (process) {
-//       if (process) {
-//         console.log(
-//           "App is already running in the background.",
-//           process.arguments,
-//           process.pid
-//         );
-//       }
-//     });
-//   }
-// );
 
 //report
 //gets datas from database and writes it in a file or prints it on screen

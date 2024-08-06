@@ -58,6 +58,6 @@ export default function startFunction(serviceName : string) {
       stdio: ["ignore", out, err],
     });
     child.unref();
-    console.log(chalk.green(`App ${serviceName} started!`));
+    console.log(chalk.green(`${serviceName} started!`));
   });
 }
