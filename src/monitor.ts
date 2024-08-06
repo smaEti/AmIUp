@@ -10,12 +10,12 @@ async function handleArg(args: string[]) {
   // console.log(args);
   switch (args[0]) {
     case "start": {
-      if (args[1] == "telegram") startFunction("telegram.js");
+      if (args[1] == "telegram") startFunction("telegramServer.js");
       else startFunction("monitorProcess.js");
       break;
     }
     case "stop": {
-      if (args[1] == "telegram") StopFunction("telegram.js");
+      if (args[1] == "telegram") StopFunction("telegramServer.js");
       else if (args[1]) {
         console.log(`Invalid service : ${args[1]}`);
         exit(0);
