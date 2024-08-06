@@ -16,3 +16,12 @@ check - (checked)
 
 report [website] [from : date to : date]
 
+final methods (Commands):
+
+add [website]
+remove [website]
+start 
+stop
+report [website]
+check
+addAlertMethod [method] [method_data]

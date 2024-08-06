@@ -95,9 +95,9 @@ async function handleArg(args: string[]) {
       break;
     }
     case "addAlertMethod": {
-      if (args[1] !== "email" && args[1] != "sms") {
+      if (args[1] !== "email" && args[1] != "sms" && !args[2]) {
+        console.log(chalk.bgRed("expected 3 argument"));
         console.log(chalk.bgRed("method should be : sms or email"));
-        if (!args[2]) console.log(chalk.bgRed("expected 3 argument"));
         exit(0);
       }
       try {
@@ -125,11 +125,43 @@ async function handleArg(args: string[]) {
       break;
     }
     default: {
+      console.log(chalk.white.underline.bold("| AmIUp Help\n"));
+      console.log(chalk.rgb(107, 3, 252)("Commands:\n"));
+      console.log(chalk.cyan(" |DataBase Commands:"));
+      console.log(
+        chalk.rgb(252, 3, 107)("   add [website]"),
+        chalk.dim("\t add the website you want to be monitored.")
+      );
+      console.log(
+        chalk.rgb(252, 3, 107)("   remove [website]"),
+        chalk.dim("\t remove the website from being monitored.")
+      );
+      console.log(
+        chalk.rgb(252, 3, 107)("   addAlertMethod [method] [method_data]\t \n"),
+        chalk.dim(
+          "        add a method for sending alerts and add the data related to it.\n         for example addAlertMethod email email@email.com"
+        )
+      );
+      console.log(chalk.cyan(" |Service Commands:"));
+      console.log(
+        chalk.rgb(255, 165, 0)("   start \t"),
+        chalk.dim(" starts the monitoring system.")
+      );
+      console.log(
+        chalk.rgb(255, 165, 0)("   stop \t"),
+        chalk.dim(" stops the monitoring system.")
+      );
+      console.log(chalk.cyan(" |Monitor Commands:"));
+      console.log(
+        chalk.rgb(3, 252, 115)("   report [website]\t"),
+        chalk.dim(" gives a monitor report file for the given website.")
+      );
+      console.log(
+        chalk.rgb(3, 252, 115)("   check \t\t"),
+        chalk.dim(" monitors the inserted websites and prints it to terminal.")
+      );
       break;
     }
   }
 }
 handleArg(argv.slice(2));
-
-//report
-//gets datas from database and writes it in a file or prints it on screen
