@@ -93,8 +93,8 @@ async function handleArg(args: string[]) {
       break;
     }
     case "addAlertMethod": {
-      if (args[1] !== "tel" && args[1] !== "email" && args[1] != "sms") {
-        console.log(chalk.bgRed("method should be : sms , tel or email"));
+      if (args[1] !== "email" && args[1] != "sms") {
+        console.log(chalk.bgRed("method should be : sms or email"));
         if (!args[2]) console.log(chalk.bgRed("expected 3 argument"));
         exit(0);
       }
