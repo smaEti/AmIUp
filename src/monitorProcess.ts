@@ -14,25 +14,25 @@ const checkWebsites = async () => {
   const data = await WebSitesCollection.find().toArray();
 
   const promises = data.map(async (site) => {
-    const url = new URL(site.website_url);
     try {
-      await axios({
+      const response = await axios({
         method: "get",
         url: site.website_url,
         timeout: 5000,
       });
-      return { host: url.hostname, status: "UP" };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (response.status != 200) throw new Error(`${site.website} is down.`);
+      return { host: site.website_url, status: "UP" };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      return { host: url.hostname, status: "DOWN" };
+      return { host: site.website_url, status: "DOWN" };
     }
   });
 
   const results = await Promise.all(promises);
-  const failedWebSites : {
+  const failedWebSites: {
     host: string;
     status: string;
-}[] = [];
+  }[] = [];
   console.log(chalk.yellow(date));
   const promises2 = results.map(async (result) => {
     console.log(

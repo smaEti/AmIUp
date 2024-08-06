@@ -5,6 +5,7 @@ import chalk from "chalk";
 import client from "./dbClient";
 import "dotenv/config";
 import check from "./check";
+import report from "./report";
 
 async function handleArg(args: string[]) {
   // console.log(args);
@@ -82,7 +83,11 @@ async function handleArg(args: string[]) {
       break;
     }
     case "report": {
-      //statements;
+      if (!args[1]) {
+        console.log(chalk.bgRed("expected 2 arguments"));
+        exit(0);
+      }
+      report(args[1]);
       break;
     }
     case "check": {
